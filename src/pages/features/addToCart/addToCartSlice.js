@@ -1,10 +1,8 @@
-import { act } from "react"
-
-const { createSlice, createAsyncThunk} = require("@reduxjs/toolkit")
-const axios = require("axios")
+import { createSlice, createAsyncThunk} from "@reduxjs/toolkit"
+import axios from "axios";
 
 export const fetchCartProduct = createAsyncThunk("cart/fetchCartProduct", async () => {
-    const response = await axios.get("https://mp1-be.vercel.app/cart/product")
+    const response = await axios.get("https://mp1-be.vercel.app/cart/products")
     return response.data
 })
 
@@ -29,7 +27,18 @@ export const deleteCartProduct = createAsyncThunk("cart/deleteCartProduct", asyn
     }
 })
 
-const addToCartSlice = createSlice({
+export const updateProductQuantity = createAsyncThunk("cart/updateProductQuantity", async ({cartId, quantity}, {rejectWithValue}) => {
+    try{
+        if(quantity > 0){
+        await axios.put(`https://mp1-be.vercel.app/cart/product/${cartId}`, {quantity})
+        }
+        return {cartId, quantity}
+    } catch (error) {
+        return rejectWithValue(error.response.data)
+    }
+})
+
+export const addToCartSlice = createSlice({
     name: "cart",
     initialState: {
         cart: [],
@@ -37,7 +46,14 @@ const addToCartSlice = createSlice({
         error: null
     },
     reducers: {
-
+        handleQuantityIncrementDecrement: (state, action) => {
+            const cartIndex = state.cart.findIndex(data => data._id === action.payload.id)
+            if(action.payload.status === "increment"){
+                state.cart[cartIndex].quantity += 1
+            } else {
+                state.cart[cartIndex].quantity -= 1
+            }
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -76,7 +92,23 @@ const addToCartSlice = createSlice({
                 state.status = "error";
                 state.error = action.error.message
             })
+
+            .addCase(updateProductQuantity.pending, (state) => {
+                state.status = "Updating";
+            })
+            .addCase(updateProductQuantity.fulfilled, (state, action) => {
+                state.status = "success";
+                const cartIndex = state.cart.findIndex(item => item._id === action.payload.cartId)
+                if(cartIndex !== -1){
+                    state.cart[cartIndex].quantity = action.payload.quantity
+                }
+            })
+            .addCase(updateProductQuantity.rejected, (state, action) => {
+                state.status = "error";
+                state.error = action.error.message;
+            });
     }
 })
 
 export default addToCartSlice.reducer;
+export const { handleQuantityIncrementDecrement } = addToCartSlice.actions

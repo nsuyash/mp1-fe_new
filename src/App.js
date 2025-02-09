@@ -67,9 +67,9 @@ export default function App() {
             }
           </div>
         </section>
-        <section className='mb-5 mx-5'>
+        <section className='mb-5 mx-4'>
           <h3 className='mb-4'>Best Deals on Smartphones<span className='float-end' style={{color: "#a9c5a0"}}><i className="bi bi-arrow-right-circle-fill"></i></span></h3>
-          <div className=''>
+          <div>
             {
               apiUrl && apiUrl.data && (
                 <>
@@ -83,7 +83,7 @@ export default function App() {
             }
           </div>
         </section>
-        <section className='mx-5 mb-2'>
+        <section className='mx-4 mb-2'>
           {
             apiUrl && apiUrl.data && (
               <>
@@ -100,7 +100,7 @@ export default function App() {
             )
           }
         </section><br />
-        <section className='mb-5 mx-5'>
+        <section className='mb-5 mx-4'>
           <h3 className='mb-4'>Best Deals on Laptops<span className='float-end' style={{color: "#a9c5a0"}}><i className="bi bi-arrow-right-circle-fill"></i></span></h3>
           <div>
             {

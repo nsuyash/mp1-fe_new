@@ -1,6 +1,7 @@
 import {NavLink} from 'react-router-dom'
 import near_market_logo from '../Images/near_market_logo.svg'
 import { fetchWishlist } from '../pages/features/wishlist/wishlistSlice'
+import { fetchCartProduct } from '../pages/features/addToCart/addToCartSlice'
 import { useEffect } from "react"
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -11,8 +12,16 @@ const Header = () => {
         return state.wishlist
     })
 
+    const {cart} = useSelector(state => {
+      return state.cart
+    })
+
     useEffect(() => {
         dispatch(fetchWishlist())
+    }, [])
+
+    useEffect(() => {
+      dispatch(fetchCartProduct())
     }, [])
 
   return (
@@ -33,7 +42,9 @@ const Header = () => {
               <NavLink to="/wishlist" style={{textDecoration: "none", color: "black"}}>
                 <i className="bi bi-heart pe-4" style={{ fontSize: "1.5rem" }}><sup className="rounded-circle px-1 text-light" style={{fontSize: "10px", backgroundColor: "red", top: "-1rem"}}>{wishlist.length}</sup></i>
               </NavLink>
-              <i className="bi bi-cart2" style={{ fontSize: "1.7rem" }}><sup className="rounded-circle px-1 text-light" style={{fontSize: "10px", backgroundColor: "red", top: "-1rem"}}>0</sup></i>
+              <NavLink to="/cart" style={{textDecoration: "none", color: "black"}}>
+              <i className="bi bi-cart2" style={{ fontSize: "1.7rem" }}><sup className="rounded-circle px-1 text-light" style={{fontSize: "10px", backgroundColor: "red", top: "-1rem"}}>{cart.length}</sup></i>
+              </NavLink>
             </div>
           </div>
         </nav>

@@ -8,6 +8,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ProductsListing from './pages/ProductsListing'
 import ProductDetails from './pages/ProductDetails'
+import CartManagementPage from './pages/features/addToCart/CartManagementPage.jsx';
 import WishlistManagementPage from './pages/features/wishlist/WishlistManagementPage'
 import store from "./pages/app/store.js"
 
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
 	{
 		path: '/wishlist',
 		element: <WishlistManagementPage />
+	},
+	{
+		path: '/cart',
+		element: <CartManagementPage />
 	},
 	{
 		path: '*', 

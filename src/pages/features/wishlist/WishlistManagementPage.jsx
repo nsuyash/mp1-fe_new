@@ -28,7 +28,7 @@ const WishlistManagementPage = () => {
         <>
             <Header />
             <SelectCategoryTab />
-            <main style={{backgroundColor: "#eaf1ea"}}>
+            <main style={{backgroundColor: "#eaf1ea", minHeight: "100vh"}}>
                 <section className="container py-4">
                     <div className="row">
                         <div className="col-md-4" style={{width: "350px"}}>
@@ -48,7 +48,7 @@ const WishlistManagementPage = () => {
                                 {
                                     wishlist.wishlist.length <= 0 ? (
                                         <div>
-                                            <p>No item in wishlist</p>
+                                            <p className="ps-2">No product in your wishlist.</p>
                                         </div>
                                     ) : wishlist.wishlist?.map((item, idx) => (
                                         <div className="mb-3 row" key={idx}>

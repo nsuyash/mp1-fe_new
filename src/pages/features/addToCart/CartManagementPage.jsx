@@ -13,20 +13,25 @@ const CartManagementPage = () => {
         dispatch(fetchCartProduct())
     })
 
+    const quantity = cart.reduce((acc, curr) => acc + curr.quantity ,0)
+    const price = cart.reduce((acc, curr) => acc + curr.mrp * curr.quantity, 0);
+    const discountPrice = cart.reduce((acc, curr) => acc + curr.mrp - (curr.mrp - (curr.mrp * curr.discount) / 100) * curr.quantity, 0);
+
+
     return (
         <>
             <Header />
             <main style={{backgroundColor: "#eaf1ea", minHeight:"100vh"}}>
-            <div className="container py-5">
-                <div className="row">
-                    <div className="row col-md-7 bg-white pt-4">
+            <div className="px-5 py-5">
+                <div className="row mx-5">
+                    <div className="row col-md-8 bg-white pt-4">
                         {
                             cart?.map((item, idx) => (
                                 <>
-                                    <div className="col-md-5 pb-3">
+                                    <div className="col-md-4 pb-3">
                                         <img style={{ width: '165px', height: "165px", objectFit: 'contain' }} src={item.productImageUrl} className="img-fluid" />
                                     </div>
-                                    <div className="col-md-7">
+                                    <div className="col-md-8">
                                     <h6 id='ixTEMNXAME' style={{fontSize: 15}}>{item.modelName} {item.modelSubContent}</h6>
                                     <p style={{fontSize: 13}}><span className='text-bold rounded text-white' style={{padding: '0.2rem 0.5rem 0.2rem 0.5rem', backgroundColor: '#388e3c'}}>{item.rating} ★</span></p>
                                     <p>
@@ -35,7 +40,7 @@ const CartManagementPage = () => {
                                         <span className='text-success' style={{fontWeight: 500}}>{item.discount}% off</span>
                                     </p>
                                     <p>
-                                        <button className="btn btn-secondary btn-sm" onClick={() => dispatch(updateProductQuantity({cartId: item._id, quantity: item.quantity - 1}))}>-</button>
+                                        <button className="btn btn-secondary btn-sm" onClick={() => item._id < 1 ? dispatch(deleteCartProduct(item._id)): dispatch(updateProductQuantity({cartId: item._id, quantity: item.quantity - 1}))}>-</button>
                                         <span className="px-2 py-1 mx-2 bg-light rounded">{item.quantity}</span>
                                         <button className="btn btn-secondary btn-sm" onClick={() => dispatch(updateProductQuantity({cartId: item._id, quantity: item.quantity + 1}))}>+</button>
                                     </p>
@@ -51,6 +56,10 @@ const CartManagementPage = () => {
                         <div className="ms-2 bg-white">
                             <p className="pt-2 ps-3" style={{fontWeight: "bold", color: '#878787'}}>PRICE DETAILS</p>
                             <hr />
+                            <div className="col mx-3">
+                                <p className="">Price ({quantity} item) <span className="float-end">₹{(price)}</span></p>
+                                <p>Discount <span className="float-end text-sucess text-opacity-25">₹{(discountPrice).toFixed(0)}</span></p>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -29,9 +29,7 @@ export const deleteCartProduct = createAsyncThunk("cart/deleteCartProduct", asyn
 
 export const updateProductQuantity = createAsyncThunk("cart/updateProductQuantity", async ({cartId, quantity}, {rejectWithValue}) => {
     try{
-        if(quantity > 0){
         await axios.put(`https://mp1-be.vercel.app/cart/product/${cartId}`, {quantity})
-        }
         return {cartId, quantity}
     } catch (error) {
         return rejectWithValue(error.response.data)

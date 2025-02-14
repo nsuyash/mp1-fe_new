@@ -18,11 +18,11 @@ const Header = () => {
 
     useEffect(() => {
         dispatch(fetchWishlist())
-    }, [])
+    }, [dispatch])
 
     useEffect(() => {
       dispatch(fetchCartProduct())
-    }, [])
+    }, [dispatch])
 
   return (
     <>

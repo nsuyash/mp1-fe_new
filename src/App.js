@@ -45,7 +45,7 @@ const BestDeals = ({data, brandName}) => {
 
 
 export default function App() {
-  const apiUrl = useFetch("https://mp1-be.vercel.app/products")
+  const apiUrl = useFetch("https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/products")
 
   return (
     <>

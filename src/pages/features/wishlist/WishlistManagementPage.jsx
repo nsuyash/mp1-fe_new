@@ -4,6 +4,8 @@ import { fetchWishlist, deleteWishlist } from './wishlistSlice'
 import { useEffect } from "react"
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from "react-router-dom"
+import emptyWishlist from "../../../Images/emptyWishlist.svg"
+import { Toast } from "bootstrap";
 
 const WishlistManagementPage = () => {
     const dispatch = useDispatch();
@@ -23,6 +25,19 @@ const WishlistManagementPage = () => {
     const handleDeleteWishlist = (wishlistId) => {
         dispatch(deleteWishlist(wishlistId))
     }
+
+    useEffect(() => {
+        const toastElement = document.getElementById("liveToast");
+        if (toastElement) {
+            new Toast(toastElement);
+        }
+    }, []);
+
+    const showToast = () => {
+        const toastElement = document.getElementById("liveToast");
+        const toast = new Toast(toastElement);
+        toast.show();
+    };
 
     return (
         <>
@@ -47,8 +62,12 @@ const WishlistManagementPage = () => {
                             <div>
                                 {
                                     wishlist.wishlist.length <= 0 ? (
-                                        <div>
-                                            <p className="ps-2">No product in your wishlist.</p>
+                                        <div className="bg-white" style={{minHeight: "60vh"}}>
+                                            <div className="py-4 text-center">
+                                                <img src={emptyWishlist} className="img-fluid w-25" />
+                                                <p className="pt-3"><span className="fs-5">Your wishlist is empty!</span><br /><span><small>Add items to it now.</small></span></p>
+                                                <NavLink to="/"><p className="btn btn-success px-5">Wishlist Now</p></NavLink>
+                                            </div>
                                         </div>
                                     ) : wishlist.wishlist?.map((item, idx) => (
                                         <div className="mb-3 row" key={idx}>
@@ -64,7 +83,15 @@ const WishlistManagementPage = () => {
                                             </NavLink>
                                             </div>
                                             <div className="col-md-3">
-                                                <i className="bi bi-trash-fill wishlist-del-icon" onClick={() => handleDeleteWishlist(item._id)}></i>
+                                                <i className="bi bi-trash-fill wishlist-del-icon" onClick={() => {handleDeleteWishlist(item._id); showToast()}}></i>
+                                                <div className="toast-container position-fixed bottom-0 end-0 p-3">
+                                                    <div id="liveToast" className="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                                                        <div className="toast-body">
+                                                            ✅ Item removed from wishlist!
+                                                            <button type="button" className="btn-close float-end" data-bs-dismiss="toast" aria-label="Close"></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     ))  

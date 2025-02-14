@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk} from "@reduxjs/toolkit"
 import axios from "axios";
 
 export const fetchCartProduct = createAsyncThunk("cart/fetchCartProduct", async () => {
-    const response = await axios.get("https://mp1-be.vercel.app/cart/products")
+    const response = await axios.get("https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/cart/products")
     return response.data
 })
 
@@ -10,7 +10,7 @@ export const postCartProduct = createAsyncThunk("cart/postCartProduct", async (n
     try {
         const cartWithQuantity = {...newCartProduct, quantity: 1}
 
-        const response = await axios.post("https://mp1-be.vercel.app/cart/product", cartWithQuantity)
+        const response = await axios.post("https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/cart/product", cartWithQuantity)
 
         return response.data
     } catch (error) {
@@ -20,7 +20,7 @@ export const postCartProduct = createAsyncThunk("cart/postCartProduct", async (n
 
 export const deleteCartProduct = createAsyncThunk("cart/deleteCartProduct", async (cartId, {rejectWithValue}) => {
     try {
-        await axios.delete(`https://mp1-be.vercel.app/cart/product/${cartId}`)
+        await axios.delete(`https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/cart/product/${cartId}`)
         return cartId
     } catch (error) {
         return rejectWithValue(error.response.data)
@@ -29,7 +29,7 @@ export const deleteCartProduct = createAsyncThunk("cart/deleteCartProduct", asyn
 
 export const updateProductQuantity = createAsyncThunk("cart/updateProductQuantity", async ({cartId, quantity}, {rejectWithValue}) => {
     try{
-        await axios.put(`https://mp1-be.vercel.app/cart/product/${cartId}`, {quantity})
+        await axios.put(`https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/cart/product/${cartId}`, {quantity})
         return {cartId, quantity}
     } catch (error) {
         return rejectWithValue(error.response.data)

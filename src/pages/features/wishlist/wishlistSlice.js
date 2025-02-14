@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 export const fetchWishlist = createAsyncThunk("wishlist/fetchWishlist", async () => {
-    const response = await axios.get("https://mp1-be.vercel.app/wishlist")
+    const response = await axios.get("https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/wishlist")
 
     return response.data;
 })
@@ -11,7 +11,7 @@ export const fetchWishlist = createAsyncThunk("wishlist/fetchWishlist", async ()
 
 export const postWishlist = createAsyncThunk("wishlist/postWishlist", async (newWishlist, {rejectWithValue}) => {
     try {
-        const response = await axios.post("https://mp1-be.vercel.app/wishlist/wishlistProduct", newWishlist)
+        const response = await axios.post("https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/wishlist/wishlistProduct", newWishlist)
 
         return response.data
     } catch (error) {
@@ -21,7 +21,7 @@ export const postWishlist = createAsyncThunk("wishlist/postWishlist", async (new
 
 export const deleteWishlist = createAsyncThunk("wishlist/deleteWishlist", async (wishlistId, {rejectWithValue}) => {
     try {
-        await axios.delete(`https://mp1-be.vercel.app/wishlist/${wishlistId}`)
+        await axios.delete(`https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/wishlist/${wishlistId}`)
         return wishlistId
     } catch (error) {
         return rejectWithValue(error.response.data)

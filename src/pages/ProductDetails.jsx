@@ -5,12 +5,15 @@ import useFetch from "../useFetch"
 import { useEffect, useState } from "react"
 import { postCartProduct } from "./features/addToCart/addToCartSlice"
 import { useDispatch } from "react-redux"
+import {Link} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 const ProductDetails = () => {
     const itemDetailsParams = useParams()
-    const {data, loading, error} = useFetch(`https://mp1-be.vercel.app/products/${itemDetailsParams.productId}`)
+    const {data, loading, error} = useFetch(`https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/products/${itemDetailsParams.productId}`)
     const [imageUrl, setImageUrl] = useState("")
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     useEffect(() => {
         if(data){
@@ -19,8 +22,10 @@ const ProductDetails = () => {
     }, [data])
 
     const handleAddToCart = (productData) => {
-        console.log(productData)
         dispatch(postCartProduct(productData))
+        setTimeout(() => {
+            navigate("/cart")
+        }, 4000)
     }
 
     return (
@@ -57,8 +62,8 @@ const ProductDetails = () => {
                             <span className='bg-success text-light py-1 px-2'>Saved upto ₹{(data.mrp * (data.discount / 100)).toFixed(0).toString().replace(/(\d)(?=(\d\d)+\d$)/g, "$1,")}</span><br />
                             </p><br />
                             <div className="d-inline">
-                                <button className="btn btn-dark px-3 py-2 me-3" onClick={() => handleAddToCart(data)}>Add to Cart</button>
-                                <button className="btn btn-success px-3 py-2">Buy Now</button>
+                            <button className="btn btn-dark px-3 py-2 me-3" onClick={() => handleAddToCart(data)}>Add to Cart</button>
+                            <button className="btn btn-success px-3 py-2">Buy Now</button>
                             </div><br /><br /><br />
                             <div>
                                 <h5>Highlights</h5>

@@ -54,3 +54,8 @@ padding-bottom: 10px;
   color: #fff;
   background-color: #fff;
 }
+
+
+.hoverBtn:hover{
+  cursor: pointer;
+}

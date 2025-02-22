@@ -8,10 +8,7 @@ export const fetchCartProduct = createAsyncThunk("cart/fetchCartProduct", async 
 
 export const postCartProduct = createAsyncThunk("cart/postCartProduct", async (newCartProduct, {rejectWithValue}) => {
     try {
-        const cartWithQuantity = {...newCartProduct, quantity: 1}
-
-        const response = await axios.post("https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/cart/product", cartWithQuantity)
-
+        const response = await axios.post("https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/cart/product", newCartProduct)
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data)
@@ -44,14 +41,6 @@ export const addToCartSlice = createSlice({
         error: null
     },
     reducers: {
-        handleQuantityIncrementDecrement: (state, action) => {
-            const cartIndex = state.cart.findIndex(data => data._id === action.payload.id)
-            if(action.payload.status === "increment"){
-                state.cart[cartIndex].quantity += 1
-            } else {
-                state.cart[cartIndex].quantity -= 1
-            }
-        }
     },
     extraReducers: (builder) => {
         builder
@@ -72,7 +61,7 @@ export const addToCartSlice = createSlice({
             })
             .addCase(postCartProduct.fulfilled, (state, action) => {
                 state.status = "success";
-                state.cart = action.payload
+                state.cart.push(action.payload)
             })
             .addCase(postCartProduct.rejected, (state, action) => {
                 state.status = "error"
@@ -109,4 +98,3 @@ export const addToCartSlice = createSlice({
 })
 
 export default addToCartSlice.reducer;
-export const { handleQuantityIncrementDecrement } = addToCartSlice.actions

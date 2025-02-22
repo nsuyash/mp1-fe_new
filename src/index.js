@@ -9,7 +9,8 @@ import reportWebVitals from './reportWebVitals';
 import ProductsListing from './pages/ProductsListing'
 import ProductDetails from './pages/ProductDetails'
 import CartManagementPage from './pages/features/addToCart/CartManagementPage.jsx';
-import WishlistManagementPage from './pages/features/wishlist/WishlistManagementPage'
+import WishlistManagementPage from './pages/features/wishlist/WishlistManagementPage';
+import ProductBuying from './pages//features/productBuying/ProductBuying.jsx';
 import store from "./pages/app/store.js"
 
 const router = createBrowserRouter([
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
 	{
 		path: '/cart',
 		element: <CartManagementPage />
+	},
+	{
+		path: "/checkout/init",
+		element: <ProductBuying />
 	},
 	{
 		path: '*', 

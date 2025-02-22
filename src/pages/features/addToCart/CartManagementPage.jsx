@@ -16,14 +16,14 @@ const CartManagementPage = () => {
     }, [dispatch]);   
 
     const [cartStatus, setCartStatus] = useState("");
-    const [updatedItem, setUpdatedItem] = useState(null); // Stores the latest updated item
+    const [updatedItem, setUpdatedItem] = useState(null); 
 
     const quantity = Array.isArray(cart) ? cart.reduce((acc, curr) => acc + curr.quantity, 0) : 0;
     const price = Array.isArray(cart) ? cart.reduce((acc, curr) => acc + curr.mrp * curr.quantity, 0) : 0;
-    const discountPrice = Array.isArray(cart) ? cart.reduce(
-        (acc, curr) => acc + ((curr.mrp - (curr.mrp * curr.discount) / 100) * curr.quantity),
-        0
-    ) : 0;
+    const discountPrice = Array.isArray(cart)
+  ? cart.reduce((acc, curr) => acc + (curr.mrp - (curr.mrp * (1 - curr.discount / 100))) * curr.quantity, 0)
+  : 0;
+
     const totalAmount = price >= 500 ? price - discountPrice : price - discountPrice + 100;
 
     useEffect(() => {
@@ -34,7 +34,7 @@ const CartManagementPage = () => {
     }, []);
 
     const showToast = (item, status) => {
-        setUpdatedItem({ ...item, status }); // Set the latest updated item
+        setUpdatedItem({ ...item, status });
         const toastElement = document.getElementById("liveToast");
         if (toastElement) {
             const toast = new Toast(toastElement);
@@ -101,13 +101,16 @@ const CartManagementPage = () => {
                                                         showToast(item, "increase");
                                                     }}>+</button>
                                             </p>
-                                            {idx >= 0 && <hr style={{ color: "gray" }} className="mt-2" />}
                                         </div>
+                                        {idx >= 0 && <hr style={{ color: "gray" }} className="mt-2" />}
                                     </div>
                                 ))}
+                                <div className="pt-2 pb-4">
+                                    <div>
+                                        <Link to="/checkout/init?cartView=true"><p className="btn btn-success btn-opacity-50 float-end fs-5 px-5 py-2">Place Order</p></Link>
+                                    </div>
+                                </div>
                             </div>
-
-                            {/* PRICE DETAILS */}
                             <div className="col-md-4">
                                 <div className="ms-3 bg-white">
                                     <p className="pt-3 ps-4" style={{ fontWeight: "bold", color: '#878787' }}>PRICE DETAILS</p>
@@ -135,8 +138,6 @@ const CartManagementPage = () => {
                     )}
                 </div>
             </main>
-
-            {/* Toast Notification */}
             {updatedItem && (
                 <div className="toast-container position-fixed bottom-0 end-0 p-3">
                     <div id="liveToast" className="toast" role="alert" aria-live="assertive" aria-atomic="true">

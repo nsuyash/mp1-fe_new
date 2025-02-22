@@ -4,7 +4,6 @@ import axios from "axios";
 
 export const fetchWishlist = createAsyncThunk("wishlist/fetchWishlist", async () => {
     const response = await axios.get("https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/wishlist")
-
     return response.data;
 })
 

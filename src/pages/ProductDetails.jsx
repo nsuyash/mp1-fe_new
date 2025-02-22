@@ -25,7 +25,14 @@ const ProductDetails = () => {
         dispatch(postCartProduct(productData))
         setTimeout(() => {
             navigate("/cart")
-        }, 4000)
+        }, 1000)
+    }
+
+    const handleBuyingItem = (productData) => {
+        dispatch(postCartProduct(productData))
+        setTimeout(() => {
+            navigate("/checkout/init", { state: { product: productData } })
+        }, 1000)
     }
 
     return (
@@ -63,7 +70,7 @@ const ProductDetails = () => {
                             </p><br />
                             <div className="d-inline">
                             <button className="btn btn-dark px-3 py-2 me-3" onClick={() => handleAddToCart(data)}>Add to Cart</button>
-                            <button className="btn btn-success px-3 py-2">Buy Now</button>
+                            <button className="btn btn-success px-3 py-2" onClick={() => handleBuyingItem(data)}>Buy Now</button>
                             </div><br /><br /><br />
                             <div>
                                 <h5>Highlights</h5>

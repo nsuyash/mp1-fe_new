@@ -40,7 +40,7 @@ const CartManagementPage = () => {
             const toast = new Toast(toastElement);
             setTimeout(() => {
                 toast.show();
-            }, 500);
+            }, 100);
         }
     };
 

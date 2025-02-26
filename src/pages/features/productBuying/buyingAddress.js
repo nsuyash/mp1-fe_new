@@ -9,6 +9,7 @@ export const fetchAddress = createAsyncThunk("address/fetchAddress", async () =>
 export const postAddress = createAsyncThunk("address/postAddress", async (newAddress, {rejectWithValue}) => {
     try {
         const response = await axios.post("https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/address", newAddress)
+        console.log("Address Post", response.data)
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data)
@@ -62,6 +63,7 @@ export const buyingAddressSlice = createSlice({
             })
             .addCase(postAddress.fulfilled, (state, action) => {
                 state.status = "success"
+                console.log("Address", action.payload)
                 state.address = [...state.address, action.payload]
             })
             .addCase(postAddress.rejected, (state, action) => {

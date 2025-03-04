@@ -40,10 +40,8 @@ const ProductDetails = () => {
             <Header />
             <main>
                 <SelectCategoryTab />
-                {loading && <p className="bg-success bg-opacity-50 text-light">Loading...</p>}
-                {error && <p className="bg-danger bg-opacity-50 text-dark">Error occure while fetching...</p>}
                 {
-                    data && (
+                    data && !loading ? (
                     <section className="row my-4">
                         <div className="col-md-6">
                             <div className="row ms-2">
@@ -91,7 +89,12 @@ const ProductDetails = () => {
                             </div>
                         </div>
                     </section>
-                    )
+                    ) :
+                    <div className='d-flex justify-content-center align-items-center bg-opacity-25 bg-white' style={{ height: '500px' }}>
+                            <div className="spinner-border text-success" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                            </div>
+                    </div>
                 }
             </main>
         </>

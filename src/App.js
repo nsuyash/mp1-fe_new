@@ -45,92 +45,101 @@ const BestDeals = ({data, brandName}) => {
 
 
 export default function App() {
-  const apiUrl = useFetch("https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/products")
+  const {data, loading} = useFetch("https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/products")
+
+  
 
   return (
     <>
       <Header />
       <br />
-      <main>     
-        <Carousel />
-        <section className='my-5 text-center mx-3'>
-          <div>
+      {
+        !loading ? <main>     
+          <Carousel />
+          <section className='my-5 text-center mx-3'>
+            <div>
+              {
+                [{src: `${discount}`, route: '/'}, {src: `${mobileTab}`, route: '/collection/mobiles&tablets'}, {src: `${laptop}`, route: '/collection/laptops'}, {src: `${tvWashingMachine}`, route: '/'}, {src: `${fashion}`, route: '/'}, {src: `${furniture}`, route: '/'}].map((category, index) => (
+                  <div className='d-inline-block' key={index} style={{padding: '0rem 2.1rem'}}>
+                    <Link to={category.route} style={{textDecoration: 'none', color: 'black'}}>
+                      <img style={{ width: "150px", height: "150px" }} className='img-fluid' src={category.src} alt='Category' />
+                      <h6>{['Top Offer', 'Mobile & Tab', 'Laptops', 'Tv & Appliances', 'Fashion', 'Furniture'][index]}</h6>
+                    </Link>
+                  </div>
+                ))
+              }
+            </div>
+          </section>
+          <section className='mb-5 mx-4'>
+            <h3 className='mb-4'>Best Deals on Smartphones<span className='float-end' style={{color: "#a9c5a0"}}><i className="bi bi-arrow-right-circle-fill"></i></span></h3>
+            <div>
+              {
+                data && (
+                  <>
+                    {
+                      ['SAMSUNG', 'REDMI', 'Apple'].map((brand, index) => (
+                        <BestDeals key={index} data={data} brandName={brand} />
+                      ))
+                    }
+                  </>
+                )
+              }
+            </div>
+          </section>
+          <section className='mx-4 mb-2'>
             {
-              [{src: `${discount}`, route: '/'}, {src: `${mobileTab}`, route: '/collection/mobiles&tablets'}, {src: `${laptop}`, route: '/collection/laptops'}, {src: `${tvWashingMachine}`, route: '/'}, {src: `${fashion}`, route: '/'}, {src: `${furniture}`, route: '/'}].map((category, index) => (
-                <div className='d-inline-block' key={index} style={{padding: '0rem 2.1rem'}}>
-                  <Link to={category.route} style={{textDecoration: 'none', color: 'black'}}>
-                    <img style={{ width: "150px", height: "150px" }} className='img-fluid' src={category.src} alt='Category' />
-                    <h6>{['Top Offer', 'Mobile & Tab', 'Laptops', 'Tv & Appliances', 'Fashion', 'Furniture'][index]}</h6>
-                  </Link>
-                </div>
-              ))
-            }
-          </div>
-        </section>
-        <section className='mb-5 mx-4'>
-          <h3 className='mb-4'>Best Deals on Smartphones<span className='float-end' style={{color: "#a9c5a0"}}><i className="bi bi-arrow-right-circle-fill"></i></span></h3>
-          <div>
-            {
-              apiUrl && apiUrl.data && (
+              data && (
                 <>
                   {
-                    ['SAMSUNG', 'REDMI', 'Apple'].map((brand, index) => (
-                      <BestDeals key={index} data={apiUrl.data} brandName={brand} />
+                    [{path: `${samsungLimitedOfferCard}`, itemId: "66caf0f9f2ca813d2f0acc5a"}, {path: `${redmiLimitedOfferCard}`, itemId: "66caf0fcf2ca813d2f0acc92"}, {path: `${appleLimitedOfferCard}`, itemId: "66caf0fef2ca813d2f0accb6"}].map((path, index) => (
+                      <div className='d-inline-block px-2 pb-2' key={index}>
+                        <NavLink to={`/productDetails/mobiles&tables/${path.itemId}`} style={{textDecoration: 'none'}}>
+                          <img src={path.path} className='img-fluid' alt='Limited-Offers-Card' style={{width: "400px", height: '200px'}} />
+                        </NavLink>
+                      </div>
                     ))
                   }
                 </>
               )
             }
-          </div>
-        </section>
-        <section className='mx-4 mb-2'>
-          {
-            apiUrl && apiUrl.data && (
-              <>
-                {
-                  [{path: `${samsungLimitedOfferCard}`, itemId: "66caf0f9f2ca813d2f0acc5a"}, {path: `${redmiLimitedOfferCard}`, itemId: "66caf0fcf2ca813d2f0acc92"}, {path: `${appleLimitedOfferCard}`, itemId: "66caf0fef2ca813d2f0accb6"}].map((path, index) => (
-                    <div className='d-inline-block px-2 pb-2' key={index}>
-                      <NavLink to={`/productDetails/mobiles&tables/${path.itemId}`} style={{textDecoration: 'none'}}>
-                        <img src={path.path} className='img-fluid' alt='Limited-Offers-Card' style={{width: "400px", height: '200px'}} />
-                      </NavLink>
-                    </div>
-                  ))
-                }
-              </>
-            )
-          }
-        </section><br />
-        <section className='mb-5 mx-4'>
-          <h3 className='mb-4'>Best Deals on Laptops<span className='float-end' style={{color: "#a9c5a0"}}><i className="bi bi-arrow-right-circle-fill"></i></span></h3>
-          <div>
-            {
-              apiUrl && apiUrl.data && (
-                <>
-                  {
-                    ['ASUS', 'HP', 'Lenovo'].map((brand, index) => (
-                      <BestDeals key={index} data={apiUrl.data} brandName={brand} />
-                    ))
-                  }
-                </>
-              )
-            }
-          </div>
-        </section>
-        <section className='mx-5 mb-3'>
-          <div className='row'>
-            {
-              [`${asusLimitedOfferCard}`, `${lenovoLimitedOfferCard}`, `${hpLimitedOfferCard}`].map((path, index) => (
-                <div className='col-md-4' key={index}>
-                  <img src={path} className='img-fluid' alt='Limited-Offers-Card' />
-                </div>
-              ))
-            }
-          </div>
-        </section><br />
-        <section className='mx-5 mb-5'>
-          <img src={topSellingSmartphone} className='rounded img-fluid' alt='Top Selling Smartphone Offer'/>
-        </section>
-      </main>
+          </section><br />
+          <section className='mb-5 mx-4'>
+            <h3 className='mb-4'>Best Deals on Laptops<span className='float-end' style={{color: "#a9c5a0"}}><i className="bi bi-arrow-right-circle-fill"></i></span></h3>
+            <div>
+              {
+                data && (
+                  <>
+                    {
+                      ['ASUS', 'HP', 'Lenovo'].map((brand, index) => (
+                        <BestDeals key={index} data={data} brandName={brand} />
+                      ))
+                    }
+                  </>
+                )
+              }
+            </div>
+          </section>
+          <section className='mx-5 mb-3'>
+            <div className='row'>
+              {
+                [`${asusLimitedOfferCard}`, `${lenovoLimitedOfferCard}`, `${hpLimitedOfferCard}`].map((path, index) => (
+                  <div className='col-md-4' key={index}>
+                    <img src={path} className='img-fluid' alt='Limited-Offers-Card' />
+                  </div>
+                ))
+              }
+            </div>
+          </section><br />
+          <section className='mx-5 mb-5'>
+            <img src={topSellingSmartphone} className='rounded img-fluid' alt='Top Selling Smartphone Offer'/>
+          </section>
+        </main> :
+        <div className='d-flex justify-content-center align-items-center bg-opacity-25 bg-white' style={{ height: '500px' }}>
+            <div className="spinner-border text-success" role="status">
+            <span className="visually-hidden">Loading...</span>
+            </div>
+        </div>
+      }
     </>
   )
 }

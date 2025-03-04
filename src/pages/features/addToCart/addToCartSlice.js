@@ -24,6 +24,15 @@ export const deleteCartProduct = createAsyncThunk("cart/deleteCartProduct", asyn
     }
 })
 
+export const deleteCartProducts = createAsyncThunk("cart/deleteCartProducts", async ({rejectWithValue}) => {
+    try {
+        await axios.delete(`https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/cart/products/delete`)
+        return []
+    } catch (error) {
+        return rejectWithValue(error.response.data)
+    }
+})
+
 export const updateProductQuantity = createAsyncThunk("cart/updateProductQuantity", async ({cartId, quantity}, {rejectWithValue}) => {
     try{
         await axios.put(`https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/cart/product/${cartId}`, {quantity})
@@ -76,6 +85,18 @@ export const addToCartSlice = createSlice({
                 state.cart = state.cart.filter((list) => list._id !== action.payload)
             })
             .addCase(deleteCartProduct.rejected, (state, action) => {
+                state.status = "error";
+                state.error = action.error.message
+            })
+
+            .addCase(deleteCartProducts.pending, (state) => {
+                state.status = "deleting";
+            })
+            .addCase(deleteCartProducts.fulfilled, (state, action) => {
+                state.status = "success";
+                state.cart = action.payload
+            })
+            .addCase(deleteCartProducts.rejected, (state, action) => {
                 state.status = "error";
                 state.error = action.error.message
             })

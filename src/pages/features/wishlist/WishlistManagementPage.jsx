@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from "react-router-dom"
 import emptyWishlist from "../../../Images/emptyWishlist.svg"
 import { Toast } from "bootstrap";
+import {postCartProduct} from '../addToCart/addToCartSlice'
 
 const WishlistManagementPage = () => {
     const dispatch = useDispatch();
@@ -45,8 +46,8 @@ const WishlistManagementPage = () => {
             <SelectCategoryTab />
             <main style={{backgroundColor: "#eaf1ea", minHeight: "100vh"}}>
                 <section className="container py-4">
-                    <div className="row">
-                        <div className="col-md-4" style={{width: "350px"}}>
+                    <div className="row g-3">
+                        <div className="col-12 col-md-4">
                             <div className="bg-white border border-white ps-3 pt-2 pb-1">
                                 <img src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/profile-pic-male_4811a1.svg" className="d-inline-block" style={{position: 'relative', bottom: "13px"}} />
                                 <p className="d-inline-block ps-3">
@@ -54,9 +55,8 @@ const WishlistManagementPage = () => {
                                     <span className="h5">Suyash Nandurkar</span>
                                 </p>
                             </div>
-
                         </div>
-                        <div className="col-md-8 bg-white border pt-3">
+                        <div className="col-12 col-md-8 bg-white border pt-3">
                             <h5 className="ps-3">My Wishlist ({wishlist.wishlist.length})</h5>
                             <hr style={{color: "gray"}} />
                             <div>
@@ -77,14 +77,15 @@ const WishlistManagementPage = () => {
                                                 </NavLink>
                                             </div>
                                             <div className="col-md-6">
-                                            <NavLink to={`/productDetails/${item.collectionType}/${item._id}`} style={{textDecoration: 'none'}}>  
-                                                <h6 id='ixTEMNXAME' style={{fontSize: 15}}>{item.modelName} {item.modelSubContent}</h6>
-                                                <p style={{fontSize: 13}}><span className='text-bold rounded text-white' style={{padding: '0.2rem 0.5rem 0.2rem 0.5rem', backgroundColor: '#388e3c'}}>{item.rating} ★</span></p>
-                                            </NavLink>
+                                                <NavLink to={`/productDetails/${item.collectionType}/${item._id}`} style={{textDecoration: 'none'}}>  
+                                                    <h6 id='ixTEMNXAME' style={{fontSize: 15}}>{item.modelName} {item.modelSubContent}</h6>
+                                                    <p style={{fontSize: 13}}><span className='text-bold rounded text-white' style={{padding: '0.2rem 0.5rem 0.2rem 0.5rem', backgroundColor: '#388e3c'}}>{item.rating} ★</span></p>
+                                                </NavLink>
+                                                <button className="btn btn-dark" onClick={() => {dispatch(postCartProduct(item)); handleDeleteWishlist(item._id); showToast()}}>Move to Cart</button>
                                             </div>
                                             <div className="col-md-3">
                                                 <i className="bi bi-trash-fill wishlist-del-icon" onClick={() => {handleDeleteWishlist(item._id); showToast()}}></i>
-                                                <div className="toast-container position-fixed bottom-0 end-0 p-3">
+                                                <div className="toast-container position-fixed bottom-0 e   nd-0 p-3">
                                                     <div id="liveToast" className="toast" role="alert" aria-live="assertive" aria-atomic="true">
                                                         <div className="toast-body">
                                                             ✅ Item removed from wishlist!

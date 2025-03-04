@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "../../../components/Header";
 import { fetchCartProduct, deleteCartProduct, updateProductQuantity } from "./addToCartSlice";
+import {postWishlist} from "../wishlist/wishlistSlice"
 import { useDispatch, useSelector } from "react-redux";
 import SelectCategoryTab from "../../../components/SelectCategoryTab";
 import emptyCart from "../../../Images/emptyCart.svg";
@@ -94,12 +95,13 @@ const CartManagementPage = () => {
                                                         }
                                                     }}>-</button>
                                                 <span className="px-2 py-1 mx-2 bg-light rounded">{item.quantity}</span>
-                                                <button className="btn btn-secondary btn-sm"
+                                                <button className="btn btn-secondary btn-sm me-4"
                                                     onClick={() => {
                                                         dispatch(updateProductQuantity({ cartId: item._id, quantity: item.quantity + 1 }));
                                                         setCartStatus("increase");
                                                         showToast(item, "increase");
-                                                    }}>+</button>
+                                                }}>+</button>
+                                                <button className="btn btn-dark opacity-75" onClick={() => {dispatch(postWishlist(item)); dispatch(deleteCartProduct(item._id))}}>Move to Wishlist</button>
                                             </p>
                                         </div>
                                         {idx >= 0 && <hr style={{ color: "gray" }} className="mt-2" />}

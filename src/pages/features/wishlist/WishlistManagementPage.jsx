@@ -3,7 +3,7 @@ import Header from "../../../components/Header"
 import { fetchWishlist, deleteWishlist } from './wishlistSlice'
 import { useEffect } from "react"
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 import emptyWishlist from "../../../Images/emptyWishlist.svg"
 import { Toast } from "bootstrap";
 import {postCartProduct} from '../addToCart/addToCartSlice'
@@ -49,10 +49,12 @@ const WishlistManagementPage = () => {
                     <div className="row g-3">
                         <div className="col-12 col-md-4">
                             <div className="bg-white border border-white ps-3 pt-2 pb-1">
-                                <img src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/profile-pic-male_4811a1.svg" className="d-inline-block" style={{position: 'relative', bottom: "13px"}} />
+                                <img src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/profile-pic-male_4811a1.svg" className="d-inline-block" alt="profile" style={{position: 'relative', bottom: "13px"}} />
                                 <p className="d-inline-block ps-3">
                                     <span>Hello,</span><br />
+                                    <Link to="/profile/user" style={{textDecoration: "none"}}>
                                     <span className="h5">Suyash Nandurkar</span>
+                                    </Link>
                                 </p>
                             </div>
                         </div>
@@ -64,7 +66,7 @@ const WishlistManagementPage = () => {
                                     wishlist.wishlist.length <= 0 ? (
                                         <div className="bg-white" style={{minHeight: "60vh"}}>
                                             <div className="py-4 text-center">
-                                                <img src={emptyWishlist} className="img-fluid w-25" />
+                                                <img src={emptyWishlist} alt="wishlist empty" className="img-fluid w-25" />
                                                 <p className="pt-3"><span className="fs-5">Your wishlist is empty!</span><br /><span><small>Add items to it now.</small></span></p>
                                                 <NavLink to="/"><p className="btn btn-success px-5">Wishlist Now</p></NavLink>
                                             </div>
@@ -73,7 +75,7 @@ const WishlistManagementPage = () => {
                                         <div className="mb-3 row" key={idx}>
                                             <div className="col-md-3">
                                                 <NavLink to={`/productDetails/${item.collectionType}/${item._id}`} style={{textDecoration: 'none'}}>        
-                                                <img style={{ width: '165px', height: "165px", objectFit: 'contain' }} src={item.productImageUrl}  />
+                                                <img style={{ width: '165px', height: "165px", objectFit: 'contain' }} alt={item.modelName} src={item.productImageUrl}  />
                                                 </NavLink>
                                             </div>
                                             <div className="col-md-6">

@@ -107,7 +107,7 @@ const CartManagementPage = () => {
                                         {idx >= 0 && <hr style={{ color: "gray" }} className="mt-2" />}
                                     </div>
                                 ))}
-                                <div className="pt-2 pb-4">
+                                <div>
                                     <div>
                                         <Link to="/checkout/init?cartView=true"><p className="btn btn-success btn-opacity-50 float-end fs-5 px-5 py-2">Place Order</p></Link>
                                     </div>

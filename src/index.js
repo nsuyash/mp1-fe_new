@@ -11,6 +11,8 @@ import ProductDetails from './pages/ProductDetails'
 import CartManagementPage from './pages/features/addToCart/CartManagementPage.jsx';
 import WishlistManagementPage from './pages/features/wishlist/WishlistManagementPage';
 import ProductBuying from './pages//features/productBuying/ProductBuying.jsx';
+import ProductSearch from './pages/ProductSearch.jsx';
+import UserProfile from './pages/UserProfile.jsx';
 import store from "./pages/app/store.js"
 
 const router = createBrowserRouter([
@@ -37,6 +39,14 @@ const router = createBrowserRouter([
 	{
 		path: "/checkout/init",
 		element: <ProductBuying />
+	},
+	{
+		path: "/product/list",
+		element: <ProductSearch />
+	},
+	{
+		path: "/profile/user",
+		element: <UserProfile />
 	},
 	{
 		path: '*', 

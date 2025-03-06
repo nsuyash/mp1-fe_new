@@ -5,12 +5,11 @@ import useFetch from "../useFetch"
 import { useEffect, useState } from "react"
 import { postCartProduct } from "./features/addToCart/addToCartSlice"
 import { useDispatch } from "react-redux"
-import {Link} from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 
 const ProductDetails = () => {
     const itemDetailsParams = useParams()
-    const {data, loading, error} = useFetch(`https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/products/${itemDetailsParams.productId}`)
+    const {data, loading} = useFetch(`https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/products/${itemDetailsParams.productId}`)
     const [imageUrl, setImageUrl] = useState("")
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -81,7 +80,7 @@ const ProductDetails = () => {
                                 {
                                     data.description.map((content, idx) => (
                                         <div key={idx} className="clearfix pb-3">
-                                            <img src={content.imageUrl} className="col-md-6 float-md-end img-fluid"  style={{height: "270px", objectFit: "contain"}} /><br />
+                                            <img src={content.imageUrl} className="col-md-6 float-md-end img-fluid" alt={content.modelName}  style={{height: "270px", objectFit: "contain"}} /><br />
                                             <p style={{width: '500px'}}>{content.content}</p><br />
                                         </div>
                                     ))

@@ -4,6 +4,7 @@ import carouselThree from '../Images/carouselThree.svg'
 import carouselFour from '../Images/carouselFour.svg'
 import { NavLink } from 'react-router-dom'
 
+
 const Carousel = () => {
     return (
       <>
@@ -16,18 +17,18 @@ const Carousel = () => {
               <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="3" aria-label="Slide 4"></button>
             </div>
             <div className="carousel-inner">
-               <div className="carousel-item active">
+              <div className="carousel-item active">
                 <NavLink to='/collection/mobiles&tablets?brand=Apple'>
                   <img src={carouselOne} className="d-block w-100" alt="carouselOfferImages" />
                 </NavLink>
-               </div>
+              </div>
               <div className="carousel-item">
                 <NavLink to='/collection/laptops'>
                   <img src={carouselTwo} className="d-block w-100" alt="carouselOfferImages" />
                 </NavLink>
               </div>
               <div className="carousel-item">
-                <NavLink to=''>
+                <NavLink to='/collection/fashion'>
                   <img src={carouselThree} className="d-block w-100" alt="carouselOfferImages" />
                 </NavLink>
               </div>

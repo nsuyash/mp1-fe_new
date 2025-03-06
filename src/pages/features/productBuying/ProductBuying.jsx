@@ -44,13 +44,19 @@ const ProductBuying = () => {
     }, [dispatch])
 
     useEffect(() => {
-        setCheckoutItem([])
-        if(cartValue === "true"){
-            setCheckoutItem(cart)
-        } else if(productBuyingItem) {
-            setCheckoutItem([{ ...productBuyingItem, quantity: productBuyingItem.quantity || 1 }])
-                    }
-    }, [cart, productBuyingItem, cartValue])
+        setCheckoutItem(prev => {
+            let updatedItems = [...prev];
+    
+            if (cartValue === "true" && cart.length > 0) {
+                updatedItems = cart;
+            } else if (productBuyingItem) {
+                updatedItems = [{ ...productBuyingItem, quantity: productBuyingItem.quantity || 1 }];
+            }
+    
+            return updatedItems;
+        });
+    }, [cartValue, cart, productBuyingItem]);
+    
 
 
     const [cartStatus, setCartStatus] = useState("");
@@ -144,6 +150,7 @@ const ProductBuying = () => {
         if(paymentSelected && showAddress && orderConfirmation){
             setOrderPlaced(true)
             dispatch(deleteCartProducts())
+            console.log("inside!!")
         } else {
             alert("Please select address, payment & order conformation method to place this order!!!")
         }
@@ -206,14 +213,12 @@ const ProductBuying = () => {
                         checkoutItems && checkoutItems.length > 0 && !orderPlaced ? (
                             <div className="row mx-5">
                                 <div className="row col-md-8 mb-3">
-                                    {/* Login Details */}
                                     <div className="bg-white">
                                         <div className="pt-2 px-5 row">
                                             <div className="col-sm-1 mt-2"><span className="bg-secondary text-success bg-opacity-25 px-2 py-1">1.</span></div>
                                             <div className="col-sm-11"><p><span className="fs-6">LOGIN ✔</span> <br /><span>Suyash Nandurkar +919834143191</span></p></div>
                                         </div>
                                     </div>
-                                    {/* Display Selected address with change address option */}
                                     <div className={showAddress.length > 0 ? "bg-white mt-3 pt-1" : "bg-primary bg-opacity-25 mt-3"}>
                                         <div className="pt-2 pb-1 px-5 row">    
                                             <div className="col-sm-1 mt-1"><span className="bg-secondary text-success bg-opacity-25 px-2 py-1">2.</span></div>
@@ -233,7 +238,6 @@ const ProductBuying = () => {
                                             }
                                         </div>
                                     </div>
-                                    {/* Select Display address with edit & delete btn option */}
                                     {
                                         address && address.length > 0 && showAddress.length < 1 && (
                                             <>
@@ -460,7 +464,6 @@ const ProductBuying = () => {
                                             </>
                                         )
                                     }
-                                    {/* Add New Address Form */}
                                     {
                                         showAddress.length < 1 && (
                                             <div className="my-3 bg-white">
@@ -610,7 +613,6 @@ const ProductBuying = () => {
                                             </div>
                                         )
                                     }
-                                    {/* Order Summary */}
                                     <div className="bg-white mt-3">
                                         <div className="pt-3 pb-1 px-5 row">
                                             <div className="col-sm-1 mt-1"><span className="bg-secondary text-success bg-opacity-25 px-2 py-1">3.</span></div>
@@ -676,7 +678,6 @@ const ProductBuying = () => {
                                                 ) : <p className="ms-5"><strong>{checkoutItems.length} ITEM</strong></p>
                                             }
                                     </div>
-                                    {/* Order Confirmation */}
                                     {
                                         !orderConfirmation && (
                                         <div className="bg-white mt-3">
@@ -687,7 +688,6 @@ const ProductBuying = () => {
                                         </div>
                                         )
                                     }
-                                    {/* Payment Method Only COD availabe*/}
                                     <div className="bg-white mt-3">
                                         <div className="pt-3 pb-1 px-5 row">
                                             <div className="col-sm-1 mt-1"><span className="bg-secondary text-success bg-opacity-25 px-2 py-1">4.</span></div>
@@ -698,7 +698,6 @@ const ProductBuying = () => {
                                         </div>
                                     </div>
                                 </div>
-                                {/* Generate Bill Section */}
                                 <div className="col-md-4">
                                     <div className="bg-white">
                                         <p className="pt-3 ps-4" style={{ fontWeight: "bold", color: '#878787' }}>PRICE DETAILS</p>
@@ -712,7 +711,7 @@ const ProductBuying = () => {
                                             <hr className="dotted-line" />
                                             <p className="text-success h6 pb-4">You will save ₹{(price > 500 ? discountPrice - 100 : discountPrice).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} on this order</p>
                                             <div className="pb-3 text-center">
-                                                <button className="btn btn-success px-5 py-1" onClick={handlePlaceOrderBtn}>PLACE ORDER</button>
+                                                <button className="btn btn-success px-5 py-1" onClick={handlePlaceOrderBtn}>CONFORM ORDER</button>
                                             </div>
                                         </div>
                                     </div>

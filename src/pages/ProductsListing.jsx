@@ -5,6 +5,7 @@ import { useParams, useLocation, useNavigate, NavLink } from 'react-router-dom'
 import SelectCategoryTab from '../components/SelectCategoryTab';
 import { useDispatch, useSelector } from "react-redux"
 import { fetchWishlist, postWishlist, deleteWishlist } from "./features/wishlist/wishlistSlice"
+import notFound from "../Images/notFound.svg"
 
 
 
@@ -52,11 +53,9 @@ const ProductsListing = () => {
     let sortedArray = [];
 
     if (selectSort === "highToLow") {
-      sortedArray = [...selectedCategory].sort((a, b) => b.mrp - a.mrp)
+      sortedArray = [...selectedCategory].sort((a, b) => (b.mrp - (b.mrp * (b.discount / 100))) - (a.mrp - (a.mrp * (a.discount / 100))))
     } else if (selectSort === 'lowToHigh') {
-      sortedArray = [...selectedCategory].sort((a, b) => a.mrp - b.mrp)
-    } else {
-      sortedArray = [...selectedCategory].sort((a, b) => Math.random() - 0.5)
+      sortedArray = [...selectedCategory].sort((a, b) => (a.mrp - (a.mrp * (a.discount / 100))) - (b.mrp - (b.mrp * (b.discount / 100))))
     }
 
     return sortedArray;
@@ -65,12 +64,10 @@ const ProductsListing = () => {
   const handleCheckboxChange = (filterKey, filterSpecification) => {
     const searchParams = new URLSearchParams(location.search)
 
-    // Checked current filter specification is already in the URL
     const currentFilter = searchParams.get(filterKey)?.split(",") || []
 
     if (currentFilter.includes(filterSpecification)) {
 
-      // Remove the filter item if it's already selected
       const updateCurrentFilters = currentFilter.filter(specification => specification !== filterSpecification)
 
       if (updateCurrentFilters.length > 0) {
@@ -84,7 +81,6 @@ const ProductsListing = () => {
       searchParams.set(filterKey, currentFilter.join(","))
     }
 
-    // Update the URL with the new query parameters
     navigate(`${location.pathname}?${searchParams.toString()}`)
   }
 
@@ -226,7 +222,7 @@ const ProductsListing = () => {
                         }
                         <hr style={{ color: "gray" }} />
                       </>
-                    ) : <div className='text-center py-5 px-5'><img src='/notFound.svg' className='img-fluid' style={{ width: 400 }} alt='Not found image.' />
+                    ) : <div className='text-center py-5 px-5'><img src={notFound} className='img-fluid' style={{ width: 400 }} alt='Not found image.' />
                       <p className='fs-2 pt-3'>No such product found.</p></div>
                 }
               </div>

@@ -59,7 +59,7 @@ export default function App() {
           <section className='my-5 text-center mx-3'>
             <div>
               {
-                [{src: `${discount}`, route: '/'}, {src: `${mobileTab}`, route: '/collection/mobiles&tablets'}, {src: `${laptop}`, route: '/collection/laptops'}, {src: `${tvWashingMachine}`, route: '/'}, {src: `${fashion}`, route: '/'}, {src: `${furniture}`, route: '/'}].map((category, index) => (
+                [{src: `${discount}`, route: '/product/list?search=50%'}, {src: `${mobileTab}`, route: '/collection/mobiles&tablets'}, {src: `${laptop}`, route: '/collection/laptops'}, {src: `${tvWashingMachine}`, route: '/'}, {src: `${fashion}`, route: '/'}, {src: `${furniture}`, route: '/'}].map((category, index) => (
                   <div className='d-inline-block' key={index} style={{padding: '0rem 2.1rem'}}>
                     <Link to={category.route} style={{textDecoration: 'none', color: 'black'}}>
                       <img style={{ width: "150px", height: "150px" }} className='img-fluid' src={category.src} alt='Category' />
@@ -71,7 +71,7 @@ export default function App() {
             </div>
           </section>
           <section className='mb-5 mx-4'>
-            <h3 className='mb-4'>Best Deals on Smartphones<span className='float-end' style={{color: "#a9c5a0"}}><i className="bi bi-arrow-right-circle-fill"></i></span></h3>
+            <h3 className='mb-4'>Best Deals on Smartphones<span className='float-end'><Link style={{textDecoration: "none", color: "#a9c5a0"}} to="/collection/mobiles&tablets"><i className="bi bi-arrow-right-circle-fill"></i></Link></span></h3>
             <div>
               {
                 data && (
@@ -104,7 +104,7 @@ export default function App() {
             }
           </section><br />
           <section className='mb-5 mx-4'>
-            <h3 className='mb-4'>Best Deals on Laptops<span className='float-end' style={{color: "#a9c5a0"}}><i className="bi bi-arrow-right-circle-fill"></i></span></h3>
+            <h3 className='mb-4'>Best Deals on Laptops<span className='float-end'><Link style={{textDecoration: "none", color: "#a9c5a0"}} to="/collection/laptops"><i className="bi bi-arrow-right-circle-fill"></i></Link></span></h3>
             <div>
               {
                 data && (

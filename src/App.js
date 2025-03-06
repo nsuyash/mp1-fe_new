@@ -45,10 +45,10 @@ const BestDeals = ({data, brandName}) => {
 
 
 export default function App() {
-  const {data, loading} = useFetch("https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/products")
 
+  const mySecret = process.env.REACT_APP_DATA_URL;
+  const {data, loading} = useFetch(`${mySecret}/products`)
   
-
   return (
     <>
       <Header />

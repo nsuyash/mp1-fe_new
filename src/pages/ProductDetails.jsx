@@ -8,8 +8,10 @@ import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
 const ProductDetails = () => {
+    const mySecret = process.env.REACT_APP_DATA_URL;
+
     const itemDetailsParams = useParams()
-    const {data, loading} = useFetch(`https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/products/${itemDetailsParams.productId}`)
+    const {data, loading} = useFetch(`${mySecret}/products/${itemDetailsParams.productId}`)
     const [imageUrl, setImageUrl] = useState("")
     const dispatch = useDispatch()
     const navigate = useNavigate()

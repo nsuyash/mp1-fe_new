@@ -1,14 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios"
+const mySecret = process.env.REACT_APP_DATA_URL;
+
 
 export const fetchAddress = createAsyncThunk("address/fetchAddress", async () => {
-    const response = await axios.get("https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/address")
+    const response = await axios.get(`${mySecret}/address`)
     return response.data
 })
 
 export const postAddress = createAsyncThunk("address/postAddress", async (newAddress, {rejectWithValue}) => {
     try {
-        const response = await axios.post("https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/address", newAddress)
+        const response = await axios.post(`${mySecret}/address`, newAddress)
         console.log("Address Post", response.data)
         return response.data
     } catch (error) {
@@ -18,7 +20,7 @@ export const postAddress = createAsyncThunk("address/postAddress", async (newAdd
 
 export const updateAddress = createAsyncThunk("address/updateAddress", async ({buyingAddress, addressId}, {rejectWithValue}) => {
     try {
-        await axios.put(`https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/address/${addressId}`, buyingAddress)
+        await axios.put(`${mySecret}/address/${addressId}`, buyingAddress)
         return {buyingAddress, addressId}
     } catch (error) {
         return rejectWithValue(error.response.data)
@@ -27,7 +29,7 @@ export const updateAddress = createAsyncThunk("address/updateAddress", async ({b
 
 export const deleteAddress = createAsyncThunk("address/deleteAddress", async (addressId, {rejectWithValue}) => {
     try {
-        await axios.delete(`https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/address/${addressId}`)
+        await axios.delete(`${mySecret}/address/${addressId}`)
         return addressId
     } catch (error) {
         return rejectWithValue(error.response.data)

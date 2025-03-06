@@ -9,6 +9,8 @@ import notFound from "../Images/notFound.svg"
 
 
 const ProductSearch = () => {
+  const mySecret = process.env.REACT_APP_DATA_URL;
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false)
   const location = useLocation()
@@ -21,8 +23,6 @@ const ProductSearch = () => {
   const handleAddWishlistProduct = (wishlistProduct) => {
     dispatch(postWishlist(wishlistProduct)).unwrap()
   }
-  
-
 
   useEffect(() => {
     setLoading(true)
@@ -31,7 +31,7 @@ const ProductSearch = () => {
         const searchParams = new URLSearchParams(location.search)
         const searchQuery = searchParams.get("search") || "";
         const query = searchQuery ? `?search=${searchQuery}` : ""; 
-        const response = await axios.get(`http://localhost:3001/product/list${query}`);
+        const response = await axios.get(`${mySecret}/product/list${query}`);
         setProducts(response.data);
         setLoading(false)
       } catch (error) {
@@ -40,7 +40,7 @@ const ProductSearch = () => {
     };
 
     fetchProducts(); 
-  }, [location.search]);
+  }, [location.search, mySecret]);
 
   return (
     <div>

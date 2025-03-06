@@ -1,14 +1,16 @@
 import { createSlice, createAsyncThunk} from "@reduxjs/toolkit"
 import axios from "axios";
+const mySecret = process.env.REACT_APP_DATA_URL;
+
 
 export const fetchCartProduct = createAsyncThunk("cart/fetchCartProduct", async () => {
-    const response = await axios.get("https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/cart/products")
+    const response = await axios.get(`${mySecret}/cart/products`)
     return response.data
 })
 
 export const postCartProduct = createAsyncThunk("cart/postCartProduct", async (newCartProduct, {rejectWithValue}) => {
     try {
-        const response = await axios.post("https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/cart/product", newCartProduct)
+        const response = await axios.post(`${mySecret}/cart/product`, newCartProduct)
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data)
@@ -17,7 +19,7 @@ export const postCartProduct = createAsyncThunk("cart/postCartProduct", async (n
 
 export const deleteCartProduct = createAsyncThunk("cart/deleteCartProduct", async (cartId, {rejectWithValue}) => {
     try {
-        await axios.delete(`https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/cart/product/${cartId}`)
+        await axios.delete(`${mySecret}/cart/product/${cartId}`)
         return cartId
     } catch (error) {
         return rejectWithValue(error.response.data)
@@ -26,7 +28,7 @@ export const deleteCartProduct = createAsyncThunk("cart/deleteCartProduct", asyn
 
 export const deleteCartProducts = createAsyncThunk("cart/deleteCartProducts", async (_,{rejectWithValue}) => {
     try {
-        const response = await axios.delete(`https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/cart/products/delete`)
+        const response = await axios.delete(`${mySecret}/cart/products/delete`)
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data)
@@ -35,7 +37,7 @@ export const deleteCartProducts = createAsyncThunk("cart/deleteCartProducts", as
 
 export const updateProductQuantity = createAsyncThunk("cart/updateProductQuantity", async ({cartId, quantity}, {rejectWithValue}) => {
     try{
-        await axios.put(`https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/cart/product/${cartId}`, {quantity})
+        await axios.put(`${mySecret}/cart/product/${cartId}`, {quantity})
         return {cartId, quantity}
     } catch (error) {
         return rejectWithValue(error.response.data)

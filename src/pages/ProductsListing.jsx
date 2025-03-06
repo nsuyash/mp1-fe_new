@@ -10,6 +10,8 @@ import notFound from "../Images/notFound.svg"
 
 
 const ProductsListing = () => {
+  const mySecret = process.env.REACT_APP_DATA_URL;
+
   const [category, setCategory] = useState([])
   const [selectSort, setSelectSort] = useState("popularity")
   const [chevron, setChevron] = useState([true, true, false, false, false, true])
@@ -18,7 +20,7 @@ const ProductsListing = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { data, loading } = useFetch(`https://mp1-be-git-main-suyash-nandurkars-projects.vercel.app/collection/${collectionName}${location.search}`)
+  const { data, loading } = useFetch(`${mySecret}/collection/${collectionName}${location.search}`)
 
   const dispatch = useDispatch();
   const { wishlist } = useSelector(state => {

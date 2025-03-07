@@ -1,7 +1,7 @@
 import SelectCategoryTab from "../../../components/SelectCategoryTab"
 import Header from "../../../components/Header"
 import { fetchWishlist, deleteWishlist } from './wishlistSlice'
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, NavLink } from "react-router-dom"
 import emptyWishlist from "../../../Images/emptyWishlist.svg"
@@ -13,6 +13,8 @@ const WishlistManagementPage = () => {
     const wishlist = useSelector(state => {
         return state.wishlist
     })
+
+    const [showToastStatus, setShowToastStatus] = useState(undefined)
 
     useEffect(() => {
         dispatch(fetchWishlist())
@@ -83,14 +85,23 @@ const WishlistManagementPage = () => {
                                                     <h6 id='ixTEMNXAME' style={{fontSize: 15}}>{item.modelName} {item.modelSubContent}</h6>
                                                     <p style={{fontSize: 13}}><span className='text-bold rounded text-white' style={{padding: '0.2rem 0.5rem 0.2rem 0.5rem', backgroundColor: '#388e3c'}}>{item.rating} ★</span></p>
                                                 </NavLink>
-                                                <button className="btn btn-dark" onClick={() => {dispatch(postCartProduct(item)); handleDeleteWishlist(item._id); showToast()}}>Move to Cart</button>
+                                                <button className="btn btn-dark" onClick={() => {
+                                                    dispatch(postCartProduct(item)); 
+                                                    handleDeleteWishlist(item._id); 
+                                                    setShowToastStatus(false)
+                                                    showToast()
+                                                }}>Move to Cart</button>
                                             </div>
                                             <div className="col-md-3">
-                                                <i className="bi bi-trash-fill wishlist-del-icon" onClick={() => {handleDeleteWishlist(item._id); showToast()}}></i>
+                                                <i className="bi bi-trash-fill wishlist-del-icon" onClick={() => {
+                                                    handleDeleteWishlist(item._id); 
+                                                    setShowToastStatus(true)
+                                                    showToast()
+                                                }}></i>
                                                 <div className="toast-container position-fixed bottom-0 e   nd-0 p-3">
                                                     <div id="liveToast" className="toast" role="alert" aria-live="assertive" aria-atomic="true">
                                                         <div className="toast-body">
-                                                            ✅ Item removed from wishlist!
+                                                            {showToastStatus ? "✅ Item removed product from wishlist!" : "✅ Item move product from wishlist to cart!"}
                                                             <button type="button" className="btn-close float-end" data-bs-dismiss="toast" aria-label="Close"></button>
                                                         </div>
                                                     </div>

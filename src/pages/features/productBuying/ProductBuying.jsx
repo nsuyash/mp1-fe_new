@@ -75,15 +75,16 @@ const ProductBuying = () => {
         }
     }, []);
 
-    const showToast = (item, status) => {
-        setUpdatedItem({ ...item, status });
-        const toastElement = document.getElementById("liveToast");
-        if (toastElement) {
-            const toast = new Toast(toastElement);
-            setTimeout(() => {
+    const showToast = (item, newQuantity) => {
+        setUpdatedItem({ ...item, quantity: newQuantity });
+
+        setTimeout(() => {
+            const toastElement = document.getElementById("liveToast");
+            if (toastElement) {
+                const toast = new Toast(toastElement);
                 toast.show();
-            }, 100);
-        }
+            }
+        }, 100);
     };
 
      const handleEditAddressClick = (add) => {
@@ -656,19 +657,23 @@ const ProductBuying = () => {
                                                                     if (item.quantity <= 1) {
                                                                         dispatch(deleteCartProduct(item._id));
                                                                         setCartStatus("removed");
-                                                                        showToast(item, "removed");
+                                                                        showToast(item, item.quantity);
+                                                                        setCheckoutItem([])
                                                                     } else {
-                                                                        cartValue ? dispatch(updateProductQuantity({ cartId: item._id, quantity: item.quantity - 1 })): checkoutItems[0].quantity--;
+                                                                        const newQuantity = item.quantity - 1
+                                                                        cartValue ? dispatch(updateProductQuantity({ cartId: item._id, quantity: newQuantity })): checkoutItems[0].quantity--;
                                                                         setCartStatus("decrease");
-                                                                        showToast(cartValue ? {...item, quantity: item.quantity - 1} : checkoutItems[0], "decrease");
+                                                                        showToast(cartValue ? item : checkoutItems[0], newQuantity);
                                                                     }
                                                                 }}>-</button>
                                                             <span className="px-2 py-1 mx-2 bg-light rounded">{item.quantity}</span>
                                                             <button className="btn btn-secondary btn-sm"
                                                                 onClick={() => {
-                                                                    cartValue ? dispatch(updateProductQuantity({ cartId: item._id, quantity: item.quantity + 1 })): checkoutItems[0].quantity++;
+                                                                    const newQuantity = item.quantity + 1
+                                                                    cartValue ? dispatch(updateProductQuantity({ cartId: item._id, quantity: newQuantity })) : checkoutItems[0].quantity++;
                                                                     setCartStatus("increase");
-                                                                    showToast(cartValue ? {...item, quantity: item.quantity + 1} : checkoutItems[0], "increase");
+                                                                    console.log("near showtoast",checkoutItems[0])
+                                                                    showToast(cartValue ? item : checkoutItems[0], newQuantity);
                                                             }}>+</button>
                                                         </p>
                                                         </div>

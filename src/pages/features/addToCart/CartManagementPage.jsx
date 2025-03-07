@@ -34,16 +34,18 @@ const CartManagementPage = () => {
         }
     }, []);
 
-    const showToast = (item, status) => {
-        setUpdatedItem({ ...item, status });
-        const toastElement = document.getElementById("liveToast");
-        if (toastElement) {
-            const toast = new Toast(toastElement);
-            setTimeout(() => {
+    const showToast = (item, newQuantity) => {
+        setUpdatedItem({ ...item, quantity: newQuantity });
+    
+        setTimeout(() => {
+            const toastElement = document.getElementById("liveToast");
+            if (toastElement) {
+                const toast = new Toast(toastElement);
                 toast.show();
-            }, 100);
-        }
+            }
+        }, 100);
     };
+    
 
     return (
         <>
@@ -87,21 +89,28 @@ const CartManagementPage = () => {
                                                         if (item.quantity <= 1) {
                                                             dispatch(deleteCartProduct(item._id));
                                                             setCartStatus("removed");
-                                                            showToast(item, "removed");
+                                                            showToast(item, item.quantity);
                                                         } else {
-                                                            dispatch(updateProductQuantity({ cartId: item._id, quantity: item.quantity - 1 }));
+                                                            const newQuantity = item.quantity - 1;
+                                                            dispatch(updateProductQuantity({ cartId: item._id, quantity: newQuantity }));
                                                             setCartStatus("decrease");
-                                                            showToast(item, "decrease");
+                                                            showToast(item, newQuantity);
                                                         }
                                                     }}>-</button>
                                                 <span className="px-2 py-1 mx-2 bg-light rounded">{item.quantity}</span>
                                                 <button className="btn btn-secondary btn-sm me-4"
                                                     onClick={() => {
-                                                        dispatch(updateProductQuantity({ cartId: item._id, quantity: item.quantity + 1 }));
+                                                        const newQuantity = item.quantity + 1;
+                                                        dispatch(updateProductQuantity({ cartId: item._id, quantity: newQuantity }));
                                                         setCartStatus("increase");
-                                                        showToast(item, "increase");
+                                                        showToast(item, newQuantity);
                                                 }}>+</button>
-                                                <button className="btn btn-dark opacity-75" onClick={() => {dispatch(postWishlist(item)); dispatch(deleteCartProduct(item._id))}}>Move to Wishlist</button>
+                                                <button className="btn btn-dark opacity-75" onClick={() => {
+                                                    dispatch(postWishlist(item)); 
+                                                    dispatch(deleteCartProduct(item._id)); 
+                                                    setCartStatus("moveToWishlist")
+                                                    showToast()
+                                                }}>Move to Wishlist</button>
                                             </p>
                                         </div>
                                         {idx >= 0 && <hr style={{ color: "gray" }} className="mt-2" />}
@@ -145,9 +154,10 @@ const CartManagementPage = () => {
                     <div id="liveToast" className="toast" role="alert" aria-live="assertive" aria-atomic="true">
                         <div className="toast-body row">
                             <div className="col-md-11">
-                                {cartStatus === "increase" ? `✅ You've increased '${updatedItem.modelName}' quantity to '${updatedItem.quantity + 1}'` 
-                                : cartStatus === "decrease" ? `✅ You've decreased '${updatedItem.modelName}' quantity to '${updatedItem.quantity - 1}'` 
-                                : `Successfully removed '${updatedItem.modelName}' from your cart`}
+                                {cartStatus === "increase" ? `✅ You've increased '${updatedItem.modelName}' quantity to '${updatedItem.quantity}'` 
+                                : cartStatus === "decrease" ? `✅ You've decreased '${updatedItem.modelName}' quantity to '${updatedItem.quantity}'` 
+                                : cartStatus === "moveToWishlist" ? `✅ You've move product to wishlist`
+                                :`Successfully removed '${updatedItem.modelName}' from your cart`}
                             </div>
                             <button type="button" className="btn-close float-end" data-bs-dismiss="toast" aria-label="Close"></button>
                         </div>

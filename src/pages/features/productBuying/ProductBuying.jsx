@@ -7,6 +7,7 @@ import SelectCategoryTab from "../../../components/SelectCategoryTab";
 import { useLocation } from "react-router-dom";
 import { Toast } from "bootstrap";
 import thankYou from "../../../Images/thankYou.svg"
+import ScrollToTop from "../../../components/ScrollToTop";
 
 const ProductBuying = () => {
     const location = useLocation();
@@ -150,7 +151,11 @@ const ProductBuying = () => {
      const handlePlaceOrderBtn = () => {
         if(paymentSelected && showAddress && orderConfirmation){
             setOrderPlaced(true)
-            dispatch(deleteCartProducts())
+            if(cartValue){
+                dispatch(deleteCartProducts())
+            } else (
+                dispatch(deleteCartProduct(checkoutItems[0]._id))
+            )
             console.log("inside!!")
         } else {
             alert("Please select address, payment & order conformation method to place this order!!!")
@@ -159,6 +164,7 @@ const ProductBuying = () => {
 
     return (
         <>
+            <ScrollToTop />
             <Header />
             <SelectCategoryTab />
             <main style={{ backgroundColor: "#eaf1ea", minHeight: "100vh" }}>
@@ -699,7 +705,7 @@ const ProductBuying = () => {
                                             <div className="col-sm-9 mt-1"><p><span className="fs-6">PAYMENT METHOD</span></p></div>
                                         </div>
                                         <div className="ps-5 pb-3">
-                                            <input type="radio" checked={paymentSelected === true} onChange={() => setPaymentSelected(!paymentSelected)} /> COD
+                                            <label><input type="radio" checked={paymentSelected === true} onChange={() => setPaymentSelected(!paymentSelected)} /> COD</label>
                                         </div>
                                     </div>
                                 </div>

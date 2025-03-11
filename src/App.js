@@ -18,6 +18,7 @@ import asusLimitedOfferCard from './Images/asusLimitedOfferCard.gif'
 import lenovoLimitedOfferCard from './Images/lenovoLimitedOfferCard.gif'
 import hpLimitedOfferCard from './Images/hpLimitedOfferCard.gif'
 import topSellingSmartphone from './Images/topSellingSmartphone.gif'
+import ScrollToTop from './components/ScrollToTop'
 
 
 
@@ -51,6 +52,7 @@ export default function App() {
   
   return (
     <>
+      <ScrollToTop />
       <Header />
       <br />
       {

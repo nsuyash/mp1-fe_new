@@ -6,6 +6,7 @@ import { NavLink } from "react-router-dom";
 import { postWishlist, deleteWishlist } from "./features/wishlist/wishlistSlice"
 import { useDispatch, useSelector } from "react-redux"
 import notFound from "../Images/notFound.svg"
+import ScrollToTop from "../components/ScrollToTop";
 
 
 const ProductSearch = () => {
@@ -44,6 +45,7 @@ const ProductSearch = () => {
 
   return (
     <div>
+      <ScrollToTop />
       <Header />
       <div className="container">
         {

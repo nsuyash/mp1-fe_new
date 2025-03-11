@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { postCartProduct } from "./features/addToCart/addToCartSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import ScrollToTop from "../components/ScrollToTop";
 
 const ProductDetails = () => {
     const mySecret = process.env.REACT_APP_DATA_URL;
@@ -37,6 +38,7 @@ const ProductDetails = () => {
 
     return (
         <>
+            <ScrollToTop />
             <Header />
             <SelectCategoryTab />
             <main className="py-4 px-4">

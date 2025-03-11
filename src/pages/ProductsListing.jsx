@@ -6,6 +6,7 @@ import SelectCategoryTab from '../components/SelectCategoryTab';
 import { useDispatch, useSelector } from "react-redux"
 import { fetchWishlist, postWishlist, deleteWishlist } from "./features/wishlist/wishlistSlice"
 import notFound from "../Images/notFound.svg"
+import ScrollToTop from '../components/ScrollToTop';
 
 
 
@@ -109,6 +110,7 @@ const ProductsListing = () => {
 
   return (
     <>
+      <ScrollToTop />
       <Header />
       <main style={{ backgroundColor: "#eaf1ea" }}>
         <SelectCategoryTab />
